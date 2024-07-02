@@ -1,7 +1,7 @@
 import React, { useReducer, useState } from 'react'
 
 const Reducer = () => {
-    const [name, setName] = useState([])
+    const [name, setName] = useState()
     const iniState =
     {
         todo: [],
