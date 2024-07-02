@@ -1,4 +1,6 @@
 import React, { useReducer, useState } from 'react'
+import TodoList from './TodoList'
+import { reducer } from './Rreducer'
 
 const Reducer = () => {
     const [name, setName] = useState()
@@ -9,43 +11,7 @@ const Reducer = () => {
         isSuccess:false,
         isMessage:""
     }
-    const reducer = (state,action) =>
-    {
-        if (action.type == "NOTNAME")
-        {
-            return {
-                ...state,
-                isSuccess: false,
-                isError: true,
-                isMessage: "Name is required.",
-                
-
-            }
-        }
-        if (action.type == "ADDED")
-        {
-            return {
-                ...state,
-                isSuccess: true,
-                isError: false,
-                isMessage: "Todo added successfully.",
-                todo: [
-                    ...state.todo,action.payload
-
-                ]
-               
-            }
-        }
-        if (action.type = "RESET")
-        {
-            return {
-                ...state,
-                isSuccess: false,
-                isError: false,
-                
-            }
-            }
-        }
+    
     const[state,dispatch] = useReducer(reducer,iniState)
     const handleChange = (e) =>
     {
@@ -60,13 +26,22 @@ const Reducer = () => {
         {
             dispatch({
                 type: "ADDED",
-                payload:name
+                payload:{name,id:Date.now()}
             })
         }
         setTimeout(() =>
         {
             dispatch({type:"RESET"})
         },2000)
+    }
+    // Delete Todo
+    const deletedTodo = (id) =>
+    {
+       
+        dispatch({
+        type: "DELETE_T",
+        payload: id
+    })
         }
   return (
       <>
@@ -88,22 +63,25 @@ const Reducer = () => {
                           <div className="alert my-3 alert-success" role="alert">
                               Todo added successfully
                           </div>
-                          }
-                          <ul>
-                          {
-                          state.todo.map((item,index) =>
-                          <li key={index}>{item}</li>)
-                          }
-                          </ul>
-                          {
-                          state.todo.length === 0 &&
-                          <p className='text-center'>No Todos found.</p>
-                          }
+                      }
+                     
                       
                       <button onClick={handleChange} className="btn my-3 btn-success w-50 mx-auto d-block">
                           Add Todo
                       </button>
                   </form>
+              </div>
+              <div className="col-lg-5 my-3 rounded-4 shadow mx-auto p-3 d-flex flex-column">
+                  <h3 className='text-center'>Todo list</h3>
+                  {
+                      state?.todo?.map((items, index) =>
+                      {
+                          return <TodoList key={index} {...items}
+                              devl={deletedTodo}
+                          />
+  
+                    })
+                  }
               </div>
           </div>
       </>
