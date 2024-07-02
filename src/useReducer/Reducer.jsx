@@ -1,7 +1,7 @@
 import React, { useReducer, useState } from 'react'
 
 const Reducer = () => {
-    const [name, setName] = useState("")
+    const [name, setName] = useState([])
     const iniState =
     {
         todo: [],
@@ -29,7 +29,20 @@ const Reducer = () => {
                 isSuccess: true,
                 isError: false,
                 isMessage: "Todo added successfully.",
+                todo: [
+                    ...state.todo,action.payload
+
+                ]
                
+            }
+        }
+        if (action.type = "RESET")
+        {
+            return {
+                ...state,
+                isSuccess: false,
+                isError: false,
+                
             }
             }
         }
@@ -46,9 +59,14 @@ const Reducer = () => {
         else
         {
             dispatch({
-                type:"ADDED"
+                type: "ADDED",
+                payload:name
             })
-            }
+        }
+        setTimeout(() =>
+        {
+            dispatch({type:"RESET"})
+        },2000)
         }
   return (
       <>
